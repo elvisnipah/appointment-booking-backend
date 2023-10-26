@@ -10,7 +10,10 @@ bookingsRouter.get("/:id", async (request, response) => {
   const id = request.params.id;
 
   const result = await Booking.findById(id);
-  response.json(result);
+  if (result) {
+    return response.json(result);
+  }
+  response.status(404).end();
 });
 
 bookingsRouter.post("/", async (request, response) => {
