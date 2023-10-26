@@ -17,10 +17,10 @@ mongoose
   .then(() => logger.info("connected to MongoDB"))
   .catch((error) => logger.error("error connecting to MongoDB", error.message));
 
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
-
 app.use(middleware.requestLogger);
+app.use(middleware.tokenExtractor);
 
 app.use("/api/bookings", bookingsRouter);
 app.use("/api/admins", adminsRouter);

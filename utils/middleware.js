@@ -24,7 +24,7 @@ const adminExtractor = async (request, response, next) => {
     return response.status(401).json({ error: "invalid token" });
   }
 
-  request.user = await Admin.findById(decodedToken.id);
+  request.admin = await Admin.findById(decodedToken.id);
   next();
 };
 
@@ -39,6 +39,10 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message });
   } else if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "JsonWebTokenError") {
+    return response.status(401).json({ error: error.message });
+  } else if (error.name === "TokenExpiredError") {
+    return response.status(401).json({ error: "token expired" });
   }
 
   next(error);

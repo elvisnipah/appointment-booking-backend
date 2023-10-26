@@ -1,8 +1,9 @@
 const Admin = require("../models/admin");
 const bcryt = require("bcrypt");
 const adminsRouter = require("express").Router();
+const { adminExtractor } = require("../utils/middleware");
 
-adminsRouter.get("/", async (request, response) => {
+adminsRouter.get("/", adminExtractor, async (request, response) => {
   const admins = await Admin.find({});
   response.json(admins);
 });
