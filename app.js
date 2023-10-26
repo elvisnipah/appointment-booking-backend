@@ -8,6 +8,7 @@ const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
 const cors = require("cors");
 const adminsRouter = require("./controllers/admins");
+const loginRouter = require("./controllers/login");
 
 mongoose.set("strictQuery", false);
 
@@ -23,6 +24,7 @@ app.use(middleware.requestLogger);
 
 app.use("/api/bookings", bookingsRouter);
 app.use("/api/admins", adminsRouter);
+app.use("/api/login", loginRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
