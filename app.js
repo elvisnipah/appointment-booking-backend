@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const config = require("./utils/config");
 const bookingsRouter = require("./controllers/bookings");
 const logger = require("./utils/logger");
+const middleware = require("./utils/middleware");
 
 mongoose.set("strictQuery", false);
 
@@ -15,5 +16,7 @@ mongoose
 app.use(express.json());
 
 app.use("/api/bookings", bookingsRouter);
+
+app.use(middleware.unknownEndpoint);
 
 module.exports = app;
