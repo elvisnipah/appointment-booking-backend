@@ -13,6 +13,7 @@ mongoose
     console.error("error connecting to MongoDB", error.message)
   );
 
+app.use(express.json());
 app.use("/api/bookings", bookingsRouter);
 
 module.exports = app;

@@ -6,4 +6,33 @@ bookingsRouter.get("/", async (request, response) => {
   response.json(result);
 });
 
+bookingsRouter.post("/", async (request, response) => {
+  const body = request.body;
+  console.log(request.body);
+
+  if (
+    !body.firstName ||
+    !body.lastName ||
+    !body.email ||
+    !body.phoneNumber ||
+    !body.appointmentTime
+  ) {
+    return response.status(400).send({
+      error: "missing value",
+    });
+  }
+
+  const booking = new Booking({
+    firstName: body.firstName,
+    lastName: body.lastName,
+    email: body.email,
+    phoneNumber: body.phoneNumber,
+    appointmentTime: body.appointmentTime,
+  });
+
+  const savedBooking = await booking.save();
+
+  response.status(201).json(savedBooking);
+});
+
 module.exports = bookingsRouter;
