@@ -6,9 +6,15 @@ bookingsRouter.get("/", async (request, response) => {
   response.json(result);
 });
 
+bookingsRouter.get("/:id", async (request, response) => {
+  const id = request.params.id;
+
+  const result = await Booking.findById(id);
+  response.json(result);
+});
+
 bookingsRouter.post("/", async (request, response) => {
   const body = request.body;
-  console.log(request.body);
 
   if (
     !body.firstName ||
