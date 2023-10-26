@@ -1,7 +1,8 @@
 const bookingsRouter = require("express").Router();
 const Booking = require("../models/booking");
+const { adminExtractor } = require("../utils/middleware");
 
-bookingsRouter.get("/", async (request, response) => {
+bookingsRouter.get("/", adminExtractor, async (request, response) => {
   const result = await Booking.find({});
   response.json(result);
 });
