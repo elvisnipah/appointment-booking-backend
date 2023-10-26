@@ -1,4 +1,6 @@
+const Admin = require("../models/admin");
 const logger = require("./logger");
+const jwt = require("jsonwebtoken");
 
 const requestLogger = (request, response, next) => {
   logger.info("Method", request.method);
@@ -13,6 +15,16 @@ const tokenExtractor = (request, response, next) => {
   if (authorization && authorization.startsWith("Bearer ")) {
     request.token = authorization.replace("Bearer ", "");
   }
+  next();
+};
+
+const adminExtractor = async (request, response, next) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "invalid token" });
+  }
+
+  request.user = await Admin.findById(decodedToken.id);
   next();
 };
 
@@ -37,4 +49,5 @@ module.exports = {
   errorHandler,
   requestLogger,
   tokenExtractor,
+  adminExtractor,
 };
