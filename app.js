@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const config = require("./utils/config");
+const bookingsRouter = require("./controllers/bookings");
 
 mongoose.set("strictQuery", false);
 
@@ -11,5 +12,7 @@ mongoose
   .catch((error) =>
     console.error("error connecting to MongoDB", error.message)
   );
+
+app.use("/api/bookings", bookingsRouter);
 
 module.exports = app;
