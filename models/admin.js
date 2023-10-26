@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
-const adminSchema = new mongoose.adminSchema({
+const adminSchema = mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -9,7 +9,6 @@ const adminSchema = new mongoose.adminSchema({
   },
   passwordHash: {
     type: String,
-    required: true,
   },
 });
 

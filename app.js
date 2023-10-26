@@ -7,6 +7,7 @@ const bookingsRouter = require("./controllers/bookings");
 const logger = require("./utils/logger");
 const middleware = require("./utils/middleware");
 const cors = require("cors");
+const adminsRouter = require("./controllers/admins");
 
 mongoose.set("strictQuery", false);
 
@@ -19,6 +20,7 @@ mongoose
 app.use(express.json());
 
 app.use("/api/bookings", bookingsRouter);
+app.use("/api/admins", adminsRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
