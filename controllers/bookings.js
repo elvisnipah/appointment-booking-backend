@@ -2,7 +2,7 @@ const bookingsRouter = require("express").Router();
 const Booking = require("../models/booking");
 const { adminExtractor } = require("../utils/middleware");
 
-bookingsRouter.get("/", adminExtractor, async (request, response) => {
+bookingsRouter.get("/", async (request, response) => {
   const result = await Booking.find({});
   response.json(result);
 });
@@ -19,7 +19,7 @@ bookingsRouter.get("/:id", async (request, response) => {
 
 bookingsRouter.post("/", async (request, response) => {
   const body = request.body;
-
+  const phonePattern = /^0\d{9}$/;
   if (
     !body.firstName ||
     !body.lastName ||
@@ -30,6 +30,10 @@ bookingsRouter.post("/", async (request, response) => {
     return response.status(400).send({
       error: "missing value",
     });
+  } else if (!phonePattern.test(body.phoneNumber)) {
+    return response.status(400).send({
+      error: "incorrect phone number",
+    });
   }
 
   const booking = new Booking({
@@ -38,6 +42,8 @@ bookingsRouter.post("/", async (request, response) => {
     email: body.email,
     phoneNumber: body.phoneNumber,
     appointmentTime: body.appointmentTime,
+    type: body.type,
+    comment: body.comment,
   });
 
   const savedBooking = await booking.save();

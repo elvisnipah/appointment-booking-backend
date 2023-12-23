@@ -7,6 +7,7 @@ const bookingSchema = new mongoose.Schema(
     email: String,
     phoneNumber: String,
     appointmentTime: Date,
+    type: String,
   },
   {
     timestamps: true,
