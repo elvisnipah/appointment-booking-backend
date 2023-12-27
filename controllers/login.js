@@ -3,6 +3,16 @@ const bcrypt = require("bcrypt");
 const loginRouter = require("express").Router();
 const Admin = require("../models/admin");
 
+loginRouter.post("/verify", async (request, response) => {
+  jwt.verify(request.body.token, process.env.SECRET, (error, decoded) => {
+    if (error) {
+      console.log(error.name);
+      return response.json({ usable: false });
+    }
+    return response.json({ usable: true });
+  });
+});
+
 loginRouter.post("/", async (request, response) => {
   const { username, password } = request.body;
 
