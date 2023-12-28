@@ -8,6 +8,7 @@ const bookingSchema = new mongoose.Schema(
     phoneNumber: String,
     appointmentTime: Date,
     type: String,
+    status: String,
   },
   {
     timestamps: true,
