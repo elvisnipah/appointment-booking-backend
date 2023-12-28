@@ -44,11 +44,27 @@ bookingsRouter.post("/", async (request, response) => {
     appointmentTime: body.appointmentTime,
     type: body.type,
     comment: body.comment,
+    status: "waiting",
   });
 
   const savedBooking = await booking.save();
 
   response.status(201).json(savedBooking);
+});
+
+bookingsRouter.put("/:id", async (request, response) => {
+  const body = request.body;
+  const id = request.params.id;
+
+  const noteExists = await Booking.findById(id);
+
+  if (!noteExists) {
+    // console.log("couldn't find");
+    return response.status(404).end();
+  }
+
+  const returnedData = await Booking.findByIdAndUpdate(id, body, { new: true });
+  response.status(200).json(returnedData);
 });
 
 module.exports = bookingsRouter;
